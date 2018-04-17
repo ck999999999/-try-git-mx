@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ShopWndControl : MonoBehaviour {
     public Text textTryExChangeBitCoinForGen;//
     public Text textTryExChangeGen;
-    public Text textMyBitCoinVal;//身上拥有数
+    //public Text textMyBitCoinVal;//身上拥有数
+    //public Text textMyGenVal;//身上拥有数
     const int ExtToGen=15;
     int tryGenCoin = 0;
     int tryGen = 0;
@@ -14,8 +15,8 @@ public class ShopWndControl : MonoBehaviour {
     public Text textTryExChangeBitCoinForGold;//
     public Text textTryExChangeGold;
 
-    const int ExtToGold = 25000;
-    int tryGoldCoin = 0;
+    const int ExtToGold = 1000;
+    int tryGoldGen = 0;
     int tryGold = 0;
 
     public static ShopWndControl Instance;
@@ -45,7 +46,7 @@ public class ShopWndControl : MonoBehaviour {
         tryGen = tryGenCoin * ExtToGen;
         textTryExChangeBitCoinForGen.text = tryGenCoin.ToString();
         textTryExChangeGen.text = tryGen.ToString();
-        textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
+        //textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
     }
     public void PreviewAdd()
     {
@@ -87,40 +88,41 @@ public class ShopWndControl : MonoBehaviour {
     {
         if (null == PlayerManager.Instance) return;
         if (null == PlayerManager.Instance.localPlayer) return;
-        tryGold = tryGoldCoin * ExtToGold;
-        textTryExChangeBitCoinForGold.text = tryGoldCoin.ToString();
+        tryGold = tryGoldGen * ExtToGold;
+        textTryExChangeBitCoinForGold.text = tryGoldGen.ToString();
         textTryExChangeGold.text = tryGold.ToString();
-        textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
+        //textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
     }
     public void GoldPreviewAdd()
     {
-        if (tryGoldCoin < PlayerManager.Instance.localPlayer.bitCoin)
+        if (tryGoldGen < PlayerManager.Instance.localPlayer.gen)
         {
-            tryGoldCoin++;
+            tryGoldGen++;
             ShowPreGoldResult();
         }
     }
     public void PreviewGoldDes()
     {
-        if (tryGoldCoin > 0)
+        if (tryGoldGen > 0)
         {
-            tryGoldCoin--;
+            tryGoldGen--;
             ShowPreGoldResult();
         }
     }
     public void ExChangeGoldNow()
     {
-        if (0 == tryGoldCoin || 0 == tryGold) return;
-        if (tryGoldCoin > PlayerManager.Instance.localPlayer.bitCoin) return;
+        if (0 == tryGoldGen || 0 == tryGold) return;
+        if (tryGoldGen > PlayerManager.Instance.localPlayer.gen) return;
 
-        PlayerManager.Instance.localPlayer.bitCoin -= tryGoldCoin;
+        PlayerManager.Instance.localPlayer.gen -= tryGoldGen;
         PlayerManager.Instance.localPlayer.gold += tryGold;
-        tryGoldCoin = 0;
+        tryGoldGen = 0;
         tryGold = 0;
         ShowPreGoldResult();
         //保存
         PlayerManager.Instance.SaveLocalPlaerData();
-        HeadAndCoinsControl.Instance.RefreshCoin();
+        //HeadAndCoinsControl.Instance.RefreshCoin();
+        HeadAndCoinsControl.Instance.RefreshGen();
         HeadAndCoinsControl.Instance.RefreshGold();
     }
    
@@ -128,6 +130,6 @@ public class ShopWndControl : MonoBehaviour {
 
     public void Refresh()
     {
-        textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
+        //textMyBitCoinVal.text = PlayerManager.Instance.localPlayer.bitCoin.ToString();
     }
 }
